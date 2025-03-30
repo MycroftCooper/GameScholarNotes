@@ -1,0 +1,112 @@
+# SubScene
+
+SubScene 是 Unity DOTS 中用于组织、存储和流式加载 Entity 数据的特殊场景资源单元。
+
+你可以把它理解为：
+“GameObject 时代的 Prefab / Scene + DOTS 的 Entity 数据打包器 + 热加载容器”
+
+SubScene = DOTS 的场景单位 + 实体数据缓存
+
+它有两个“阶段”：
+
+- 编辑器（Editor）
+  你用 GameObject 和 MonoBehavior 搭场景
+- 构建时（Baking）
+  Unity 会将内容转化为 Entity，并打包为 `.entities` 文件
+
+资源打包：
+   - .entities 文件
+   - Baked Entity 数据
+   - BlobAsset / 组件 / Buffer / Reference 等
+
+加载控制：
+
+- 可选 AutoLoad
+- 支持异步加载 / 热卸载
+
+![image-20250328003213318](./image-20250328003213318.png)
+
+## 4. 如何在运行时加载/卸载 SubScene？
+
+Unity 提供 `SceneSystem` 来动态加载 DOTS SubScene。
+
+示例代码：
+
+```c#
+var sceneSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<SceneSystem>();
+var sceneGUID = new Unity.Entities.Hash128("你的SubSceneGUID");
+
+SceneSystem.LoadSceneAsync(sceneSystem.WorldUnmanaged, sceneGUID, new SceneSystem.LoadParameters
+{
+    AutoLoad = true
+});
+```
+
+ 卸载：
+
+```c#
+SceneSystem.UnloadScene(sceneGUID);
+```
+
+你可以监听 SubScene 加载状态：
+
+```c#
+SceneSystem.IsSceneLoaded(sceneGUID);
+```
+
+**SubScene 支持的加载模式**
+
+| 模式        | 描述                                      |
+| ----------- | ----------------------------------------- |
+| `AutoLoad`  | Unity 会在场景加载时自动加载它            |
+| `Manual`    | 你手动调用 API 加载                       |
+| `Streaming` | 结合 Hybrid Renderer 按视野加载（需配置） |
+
+------
+
+## 🧠 SubScene 的实际运行机制：
+
+- 每个 SubScene 内的 Entity 会被放进当前 `World`
+- SubScene 会生成一个顶级“虚拟 Scene Entity”，包含所有子实体引用
+- 你可以通过 `SceneTag` 查询来自哪个 SubScene 的实体
+
+```c#
+Entities.WithAll<SceneTag>().ForEach(...);
+```
+
+------
+
+## ✅ 与 GameObject 场景的区别
+
+| 特性       | GameObject Scene       | DOTS SubScene                   |
+| ---------- | ---------------------- | ------------------------------- |
+| 结构       | Mono + Script          | Entity + IComponentData         |
+| 存储       | Hierarchy + Prefab     | Packed Entity（.entities 文件） |
+| 运行时性能 | 慢（层级遍历 + GC）    | 快（线性内存 + Burst）          |
+| 加载方式   | SceneManager.LoadScene | SceneSystem.LoadSceneAsync      |
+| 部署方式   | 整包                   | 支持热更（只更新 .entities）    |
+
+------
+
+## ✅ SubScene 和 World 的关系
+
+- 每个 SubScene 加载时，会将其实体内容加载进指定的 `World`
+- 默认是 `DefaultGameObjectInjectionWorld`
+- 你也可以用 `SceneSystem.LoadSceneAsync(world, ...)` 指定加载到某个 World
+
+这样你就可以：
+
+- 把不同 SubScene 加载进不同 World（做并行模拟）
+- 动态卸载场景数据，保持 World 内存干净
+
+------
+
+## ✅ 常见应用场景
+
+| 场景         | SubScene 用法                            |
+| ------------ | ---------------------------------------- |
+| 开放世界     | 每块地图拆成 SubScene，按需加载          |
+| 怪物刷怪     | 怪物预制体做成 SubScene，生成时加载      |
+| 角色数据热更 | 每个角色逻辑打成独立 SubScene            |
+| 场景切换过渡 | A Scene 卸载时延迟释放 SubScene 数据     |
+| 拆包加载资源 | .entities 文件放进 Addressables 按需加载 |

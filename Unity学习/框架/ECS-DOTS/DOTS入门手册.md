@@ -202,7 +202,7 @@ Entities.ForEach((ref Health health) => {
 
 ### EntityManager & World
 
-![image-20250328003213318](./image-20250328003213318.png)
+
 
 **World**
 `World` 是 DOTS 框架中的“**容器**”对象。
@@ -234,113 +234,6 @@ Entity entity = em.CreateEntity(archetype);
 em.SetComponentData(entity, new Translation { Value = float3.zero });
 em.SetComponentData(entity, new MoveSpeed { Value = 1f });
 ```
-
-### Component 类型（IComponentData）
-
-数据组件必须是结构体（`struct`），实现 `IComponentData` 接口。
-
-```c#
-public struct MoveSpeed : IComponentData{
-    public float Value;
-}
-```
-
-所有逻辑数据都应以组件形式附加在 Entity 上。
-
-**为什么必须是 struct？**
-ECS 强调数据性能：
-
-- **struct 是值类型**
-  - 可连续内存排列（cache-friendly）
-  - 无堆分配
-  - 无 GC。
-
-- 引用类型（class）则会带来：
-  - 内存碎片化
-  - 堆分配、GC 压力
-  - 破坏线程安全
-
-所以 **所有 Component 必须是 struct，且必须是 blittable（可被 Burst 编译）**
-
-还有其他组件接口：
-
-| 接口                   | 说明                           | 典型用途                       | 优点               | 缺点                   | 是否支持并行 Job  |
-| ---------------------- | ------------------------------ | ------------------------------ | ------------------ | ---------------------- | ----------------- |
-| `IComponentData`       | 普通数据组件（最常用）         | 位置、速度、生命等             | 性能高，灵活       | 需要匹配类型组合来分组 | ✅                 |
-| `IEnableableComponent` | 可启用/禁用组件，而非添加/移除 | 动态切换逻辑分支（如 AI 启用） | 快速切换状态       | 占空间，不如移除彻底   | ✅                 |
-| `IBufferElementData`   | 可变长的组件数组               | 背包、路径点、技能槽           | 表示列表数据       | 编程稍复杂             | ✅（注意特殊调度） |
-| `ISharedComponentData` | 跨 Chunk 的共享组件            | 材质、动画类型等               | 分组渲染、分组计算 | 不能 Job、慢           | ❌（不能并行）     |
-| `IComponentData + Tag` | 空组件，用于标记（无字段）     | 标记“敌人”、“需要处理”等       |                    |                        | ✅                 |
-
-### System 类型（业务逻辑执行者）
-
-Unity 提供了三种 System 类型：
-
-| 类型              | 简介                          | 优点                    | 缺点                   | 适用场景                 |
-| ----------------- | ----------------------------- | ----------------------- | ---------------------- | ------------------------ |
-| `SystemBase`      | 最常用的 DOTS 系统类型        | 语法简单，支持 Job 调度 | 有 GC 分配（捕获变量） | 推荐默认用               |
-| `ISystem`         | 高性能、纯结构体系统（C# 8+） | 无 GC、性能极高         | 写法麻烦，调试难       | 极致性能需求（如模拟器） |
-| `ComponentSystem` | 旧版系统，不推荐使用          | 早期支持 EntityQuery    | 不支持 Job，性能差     | 已弃用                   |
-
-`SystemBase` 示例
-
-```c#
-public partial class MoveSystem : SystemBase{
-    protected override void OnUpdate(){
-        float deltaTime = SystemAPI.Time.DeltaTime;
-
-        Entities
-            .ForEach((ref Translation pos, in MoveSpeed speed) =>{
-                pos.Value.y += speed.Value * deltaTime;
-            }).ScheduleParallel();
-    }
-}
-```
-
-`Entities.ForEach(...)` 是编写 System 的常见方式。默认是“Job 化”的，Unity 会自动调度为多线程任务。使用 `.ScheduleParallel()` 可以并行处理实体。
-
-```c#
-Entities.ForEach((ref Translation pos, in MoveSpeed speed) => {
-    pos.Value += speed.Value * deltaTime;
-}).ScheduleParallel();
-```
-
-System 会自动查找所有拥有匹配组件的实体，并执行逻辑。
-它基于Archetype和EntityQuery索引系统，查找的是符合条件的Chunk，而不是逐个判断Entity。
-
-**具体流程是这样的：**
-
-1. **系统**声明想要访问的组件组合（比如：`ref Translation`, `in MoveSpeed`）
-2. Unity**自动生成一个EntityQuery**，它会匹配“拥有这些组件的Archetype”
-3. Unity 的 ECS 框架中维护着一个`Archetype → Chunk[]`索引表（反查表）
-4. **系统不用遍历所有Entity，而是直接拿到了这些条件符合的Chunk列表**
-5. 然后再对Chunk内的集群执行批量处理（甚至不关心实体本身，只处理数据列）
-
-#### **Chunk 与 Archetype**（内存优化核心）
-
-在 Unity DOTS 中：
-
-- **Archetype**：
-  - 一组特定组件类型的组合，定义实体的“结构”
-  - 每个 Entity 都属于某个 Archetype
-  - 所有组件类型顺序固定（影响内存结构）
-- **Chunk**：
-  - 存储具有相同 Archetype 的实体数据的内存块
-  - 是一块物理内存区域，最多容纳 16KB 的实体数据。
-  - Chunk 中的组件数据按列式结构排列，**非常利于 CPU Cache 命中**
-
-**举个例子：**
-假设两个实体：
-
-- A 拥有组件：Position、Velocity
-- B 拥有组件：Position、Velocity、Health
-
-它们拥有不同的 Archetype，因此会存储在不同的 Chunk 中。
-
-**优点：**
-
-- 查询速度极快（不用逐个遍历）
-- CPU Cache 命中率高，内存访问快
 
 ### 常用内置组件（Transform 系列）
 
@@ -403,141 +296,461 @@ public class MoveSpeedAuthoring : MonoBehaviour{
 | 4.7      | SubScene 流式加载机制              | SceneSystem 加载控制、地址引用、动态卸载             |
 | 4.8      | ECS 中的事件系统                   | 如何设计 Event Component、实现全局事件/消息广播      |
 
-## 4.1 EntityQuery 深入理解
+# 第四章 · DOTS 进阶机制
 
-### ✅ 章节目标
+## 4.8 📣 DOTS 中的事件系统设计（Event System）
 
-你已经知道了：
+在 ECS 架构中，我们常会遇到这样的需求：
 
-> `Entities.ForEach(...).Schedule()` 背后就是 Unity 为你构造了一个 **EntityQuery**
+- 敌人被击杀 → 触发掉落逻辑
+- 角色释放技能 → 播放动画、扣蓝、进入冷却
+- 玩家拾取道具 → 增加背包内容、播放音效
 
-这一小节我们要搞清楚的是：
+这些本质上都是「**一个 System 产生状态变更，另一个 System 做出响应**」，也就是：
+**跨 System 通信 ➜ 事件派发 ➜ 响应处理**
 
-| 你将掌握的核心点             | 举例说明                               |
-| ---------------------------- | -------------------------------------- |
-| ✅ EntityQuery 是什么？       | 系统用来筛选哪些 Entity 参与运行的规则 |
-| ✅ 它是怎么匹配实体的？       | 组件组合 + 可读/可写权限               |
-| ✅ 如何手动构造 EntityQuery？ | 更复杂的条件控制                       |
-| ✅ 查询缓存是如何优化性能的？ | Chunk 缓存、Query 复用机制             |
-| ✅ Query 的动态组合方式       | 用布尔操作构建复杂 Query               |
+但 ECS 的特点是「数据驱动 + 解耦」，所以不能像 OOP 那样直接调用函数。
+
+于是就需要「事件系统」机制来代替函数调用，做：
+**低耦合、延迟触发、跨帧传播** 的消息分发！
+
+**Unity DOTS 并没有官方内建的事件机制！**但它为我们提供了很多**构建事件系统的基础能力**，比如：
+
+| 能力                  | 用于实现                     |
+| --------------------- | ---------------------------- |
+| `IBufferElementData`  | 事件队列 / 多条事件数据      |
+| `EntityCommandBuffer` | 延迟创建/销毁事件实体        |
+| `DynamicBuffer<T>`    | 存放一帧/多帧事件            |
+| `EnableableComponent` | 标记是否已消费               |
+| `Entity`              | 事件也可以是一类“无寿命实体” |
+
+**DOTS 中实现事件系统的主流方案（共三种）**
+
+| 方案                              | 原理                                             | 特点               |
+| --------------------------------- | ------------------------------------------------ | ------------------ |
+| **事件组件 + 一帧生存**（最常用） | 创建一个 Entity，附加 `Event_XYZ` 组件，下帧销毁 | 简单、高性能、推荐 |
+| **Buffer 储存事件**               | 把事件写入 `DynamicBuffer<T>` 中，一帧内消费     | 延迟、稳定、跨帧   |
+| ✅**EventBus（纯数据广播）**       | 用静态容器或单例 Entity 收集/广播事件            | 不推荐，耦合高     |
 
 ------
 
-## 1. 什么是 EntityQuery？
+## ✅ 推荐方案：**“短生命周期事件组件”**
 
-EntityQuery 是 Unity ECS 中的一个**查询条件描述器**，用于告诉系统：
+这是目前**最接近 Unity 官方推荐的方式**：
 
-> “我只想处理符合**这些组件组合**的实体”
+### 示例：角色受伤事件
 
-你在 `Entities.ForEach(...)` 里声明的组件，其实就是在背后隐式创建了一个 EntityQuery。
+#### 定义事件组件（Tag 或含数据）
 
-```c#
-Entities
-  .ForEach((ref Translation t, in MoveSpeed s) => { ... })
 ```
-
-等价于：
-
-```c#
-var query = GetEntityQuery(
-    ComponentType.ReadWrite<Translation>(),
-    ComponentType.ReadOnly<MoveSpeed>()
-);
-```
-
-EntityQuery 是**缓存友好型的结构**：
-
-- 每个 EntityQuery 创建后会**缓存匹配的 Archetype 集合**
-- 查询时只需要访问缓存列表，无需重新计算
-- 同一个查询条件只创建一次（可以存字段复用）
-- 如果 Archetype 更新（如新实体被创建），系统会**自动更新 Query 缓存**
-
-## 2. EntityQuery 是如何匹配实体的？
-
-它的原理是：
-
-> ✅ 通过组件组合（Archetype）来**快速反查**，找到所有拥有这些组件的 Chunk
-
-而不是遍历所有 Entity 一个个判断。
-
-EntityQuery 只要说：“我要 Translation + MoveSpeed”，系统就立刻找到所有符合这个 Archetype 的 Chunk，进行批处理。
-
-![image-20250328021212018](./image-20250328021212018.png)
-
-## 3. 如何手动创建 EntityQuery？
-
-如果你需要复用查询逻辑，可以在 System 初始化时创建：
-
-```c#
-EntityQuery _moveQuery;
-
-protected override void OnCreate()
+csharp复制编辑public struct DamageEvent : IComponentData
 {
-    _moveQuery = GetEntityQuery(
-        ComponentType.ReadWrite<Translation>(),
-        ComponentType.ReadOnly<MoveSpeed>()
-    );
+    public Entity Target;
+    public float Amount;
 }
 ```
 
-然后在 OnUpdate 中使用：
+#### 创建事件实体（例如在攻击系统中）
 
-```c#
-Entities
-  .WithStoreEntityQueryInField(ref _moveQuery)
-  .ForEach((...) => { ... })
-  .Schedule();
+```
+csharp复制编辑Entity e = ecb.CreateEntity();
+ecb.AddComponent(e, new DamageEvent
+{
+    Target = enemy,
+    Amount = 25f
+});
+```
+
+#### 响应事件（在事件处理系统中）
+
+```
+csharp复制编辑public partial class DamageSystem : SystemBase
+{
+    protected override void OnUpdate()
+    {
+        Entities.ForEach((Entity e, in DamageEvent evt) =>
+        {
+            // 找到目标实体，扣血
+            var health = GetComponent<Health>(evt.Target);
+            health.Value -= evt.Amount;
+            SetComponent(evt.Target, health);
+
+            // 销毁事件实体（事件只处理一次）
+            EntityManager.DestroyEntity(e);
+
+        }).WithoutBurst().Run(); // 注意：有 EntityManager 操作不能用 Burst
+    }
+}
 ```
 
 ------
 
-## 4. EntityQuery 支持哪些查询条件？
+## ✅ 生命周期对照
 
-| 查询条件类型        | 作用                                 |
-| ------------------- | ------------------------------------ |
-| `WithAll<T>()`      | Entity 必须拥有 T                    |
-| `WithNone<T>()`     | Entity 必须没有 T                    |
-| `WithAny<T>()`      | Entity 至少拥有其中一个 T            |
-| `WithDisabled<T>()` | 包含已被禁用的组件                   |
-| `WithAbsent<T>()`   | Entity 未拥有某组件（不等于 Remove） |
+| 阶段      | 内容                          |
+| --------- | ----------------------------- |
+| Frame N   | 创建 Event 实体，附加数据组件 |
+| Frame N+1 | 被系统消费，执行逻辑后销毁    |
+| Frame N+2 | 不再存在，自动清理 ✔️          |
 
-也可以组合使用：
+> ✅ 一帧触发 ➜ 一帧响应 ➜ 一帧销毁，**无需标记状态位，无需额外调度机制！**
+
+------
+
+## ✅ 可选优化方式
+
+| 技术                  | 用法                                |
+| --------------------- | ----------------------------------- |
+| `IBufferElementData`  | 一次创建一个 Entity，挂多个事件记录 |
+| `EnableableComponent` | 标记是否已处理（避免误触）          |
+| `SharedComponentData` | 分组批量处理特定类型事件            |
+| `EntityCommandBuffer` | 延迟执行，避免结构变化              |
+
+------
+
+## 🧠 小贴士：如何处理「事件广播」？
+
+比如一个事件要多个系统处理，怎么办？
+
+你可以：
+
+- 用 `IBufferElementData`，放在一个单例 Entity 上，多个系统消费不同类型事件
+- 或者复制多个 Event 实体，各自被不同系统识别（可加 `TagComponent` 来分类）
+
+------
+
+## ✅ 最小事件模式模板
+
+```
+csharp复制编辑public struct MyEvent : IComponentData { public float Value; }
+
+public partial class MyEventProducer : SystemBase {
+    protected override void OnUpdate() {
+        var ecb = new EntityCommandBuffer(Allocator.Temp);
+        var e = ecb.CreateEntity();
+        ecb.AddComponent(e, new MyEvent { Value = 123f });
+        ecb.Playback(EntityManager);
+        ecb.Dispose();
+    }
+}
+
+public partial class MyEventConsumer : SystemBase {
+    protected override void OnUpdate() {
+        Entities.ForEach((Entity e, in MyEvent evt) => {
+            // 处理逻辑...
+            EntityManager.DestroyEntity(e);
+        }).WithoutBurst().Run();
+    }
+}
+```
+
+------
+
+## ✅ 小结表格
+
+| 特性             | 值                                       |
+| ---------------- | ---------------------------------------- |
+| 是否 DOTS 原生？ | ❌ 需要自实现                             |
+| 是否推荐？       | ✅ 是（事件实体是最佳实践）               |
+| 是否可并发？     | ✅ 可通过 `IBufferElementData` + Job 实现 |
+| 是否支持多播？   | ✅ 可通过多组件类型/分类 Entity 实现      |
+
+###  第五章：并发与性能（Job + Burst）
+
+- 5.1 C# Job System 原理与写法
+- 5.2 IJob vs IJobChunk vs Entities.ForEach
+- 5.3 Burst 编译器作用与限制
+- 5.4 线程安全、结构变更与内存管理
+
+## 5.1 C# Job System 原理
+
+### ✅ 核心概念
+
+Job 是一段**可并发调度的代码块**，它运行在 Unity Job Scheduler 管理的线程池中。
+
+是 Unity DOTS 的“多线程计算框架”，将原本主线程逻辑拆分成可调度、可并行的小任务块。
+
+### Job 特点：
+
+- 多线程 （最多跑到 8~16 核）
+
+- 零分配 （无 GC）
+
+- 数据局部性 （SoA 内存结构 + 连续访问）
+
+  它解决了：
+
+  - 原本单线程 Update 吞吐瓶颈
+  - 自定义多线程调度难维护的问题
+
+ 特点：
+
+- 自动分线程调度
+- 与 NativeContainer（如 NativeArray）完美协作
+- 可与 Burst 编译器配合获得 SIMD 性能
+
+------
+
+### Job 类型一览：
+
+| Job 接口             | 作用                    | DOTS 是否用到                  |
+| -------------------- | ----------------------- | ------------------------------ |
+| `IJob`               | 单任务                  | ✅ 有时用                       |
+| `IJobParallelFor`    | 并行数组                | ✅ 可与 ComponentDataArray 配合 |
+| `IJobChunk`          | Chunk 为单位遍历 Entity | ✅ DOTS 专用                    |
+| `Entities.ForEach()` | Lambda Job 风格         | ✅ 最主流，推荐                 |
+
+### 示例：IJobEntity
+
+```c#
+[BurstCompile]
+public partial struct MoveJob : IJobEntity
+{
+    public float DeltaTime;
+
+    public void Execute(ref LocalTransform transform, in MoveSpeed speed)
+    {
+        transform.Position += speed.Value * DeltaTime;
+    }
+}
+```
+
+在 System 中调度：
+
+```c#
+new MoveJob { DeltaTime = SystemAPI.Time.DeltaTime }.Schedule();
+```
+
+### DOTS 推荐写法（Lambda Job）
 
 ```c#
 Entities
-  .WithAll<A, B>()
-  .WithNone<C>()
-  .WithAny<D, E>()
+    .WithAll<Tag>()
+    .ForEach((ref Translation pos, in MoveSpeed speed) =>
+    {
+        pos.Value.y += speed.Value * deltaTime;
+    })
+    .ScheduleParallel();
 ```
 
-##  6. 高阶用法：布尔组合查询
+- 会自动转成 Job
+- 支持 Burst 编译
+- 支持并行处理 + 安全检查
 
-你可以通过 `EntityQueryDesc[]` 创建复杂组合：
+------
 
-```c#
-EntityQueryDesc[] queryDescs = new EntityQueryDesc[]{
-    new EntityQueryDesc {
-        All = new ComponentType[] { typeof(Translation), typeof(MoveSpeed) },
-        None = new ComponentType[] { typeof(SleepingTag) }
-    }
-};
+## 💥 Job 中不能干的事（结构变更）
 
-var query = EntityManager.CreateEntityQuery(queryDescs);
+在 Job 中不允许做：
+
+- 创建 / 销毁实体
+- 添加 / 删除组件
+- 非线程安全访问 EntityManager
+
+✅ 正确做法：使用 EntityCommandBuffer 记录，帧末统一执行！
+
+## 什么是 BlobAsset？
+
+### ✅ 概念：
+
+> **BlobAsset** 是 Unity DOTS 提供的一种**高效、只读、连续内存存储结构**，用于存储运行时不变的大量数据（如配置表、地图、骨骼数据等）。
+
+类似于 C++ 中的：
+
+- struct[]
+- const array
+- memory mapped file
+
+------
+
+### 📦 使用场景：
+
+| 应用                   | 原因                       |
+| ---------------------- | -------------------------- |
+| 配置表（如敌人属性表） | 需要频繁读、但不会改       |
+| 网格数据               | 结构复杂，但一经生成就只读 |
+| 动画数据               | 用于 DOTS 的骨骼动画系统   |
+| AI 行为树              | 整棵树只读，用于 Job 并行  |
+
+------
+
+### 📚 特点：
+
+| 特性                          | 描述                                |
+| ----------------------------- | ----------------------------------- |
+| ✅ 高性能                      | 存在一段连续的原生内存中，缓存友好  |
+| ✅ Job 可访问                  | 支持在多线程 Job 中访问（因为只读） |
+| ✅ 可嵌套结构                  | 支持嵌套数组、指针、复杂结构体      |
+| ✅ 必须通过 `BlobBuilder` 构建 | 不可手动创建，需要提前构造          |
+
+------
+
+### 🔨 构建方式：
+
+```
+csharp复制编辑BlobBuilder builder = new BlobBuilder(Allocator.Temp);
+ref MyBlobData root = ref builder.ConstructRoot<MyBlobData>();
+var array = builder.Allocate(ref root.MyArray, count);
+...
+BlobAssetReference<MyBlobData> blobAsset = builder.CreateBlobAssetReference<MyBlobData>(Allocator.Persistent);
+builder.Dispose();
 ```
 
-小技巧：
+------
 
-| 场景                     | 建议                                                   |
-| ------------------------ | ------------------------------------------------------ |
-| 有多个系统处理同一类实体 | 把 EntityQuery 抽成字段复用                            |
-| 想精确控制哪些实体被处理 | 手动写 Query，更灵活                                   |
-| 性能优化                 | 用 `WithAll<>` 限定组件组合，避免遍历过多 Chunk        |
-| Debug                    | 使用 `query.CalculateEntityCount()` 观察当前匹配实体数 |
+### 🔍 使用方式：
+
+```
+csharp复制编辑var config = myBlobAssetReference.Value;
+int health = config.EnemyConfigArray[enemyId].Health;
+```
+
+因为是**只读结构**，可以在线程中、Job 中并发安全访问。
+
+------
+
+### 🛑 注意事项：
+
+- BlobAsset 的内存不托管，需要手动 `.Dispose()` 释放
+- 如果想要嵌入组件，通常配合 `BlobAssetReference<T>` 使用
+
+**只读 + 不变的数据（Immutable）** = 最适合用 `BlobAsset`
+
+### 🚨 为什么？
+
+在 DOTS 多线程 Job 中：
+
+| 数据来源                         | 是否线程安全？                     | 备注 |
+| -------------------------------- | ---------------------------------- | ---- |
+| 普通 class/struct                | ❌ 不安全，不能直接用               |      |
+| MonoBehaviour / ScriptableObject | ❌ 完全不允许 Job 中访问            |      |
+| Entity ComponentData             | ✅ 安全，但需要 ECS 世界管理        |      |
+| `BlobAssetReference<T>`          | ✅ 完美：只读 + Job 安全 + 内存友好 |      |
+
+------
+
+## 📦 常见外部数据是否需要转为 BlobAsset
+
+| 数据类型                       | 推荐转为 BlobAsset？ | 原因                                                     |
+| ------------------------------ | -------------------- | -------------------------------------------------------- |
+| 📘 配置表（如敌人属性）         | ✅ 强烈推荐           | 数据量大且只读，频繁访问，缓存友好                       |
+| 🎮 预制体（Prefab Entity）      | ❌ 不需要             | Prefab 本身是 ECS 世界的“实体模板”，用 `Entity` 引用即可 |
+| 🎵 音频/纹理/资源路径           | 🔶 视情况而定         | 可以只保存引用 ID/path，也可以用 BlobAsset 管理映射表    |
+| 📊 地图数据（地形网格、高度图） | ✅ 推荐               | 数据大，结构复杂，纯读                                   |
+| 🧠 行为树/AI逻辑表              | ✅ 推荐               | 树形结构，非常适合转为 `Blob` 结构嵌套                   |
+| 🌀 曲线数据（动画、特效曲线）   | ✅ 推荐               | Job 中要访问动画值或轨迹，Blob 读取最安全                |
+
+------
+
+## 🚀 BlobAsset 的优势总结
+
+| 特性               | 好处                                    |
+| ------------------ | --------------------------------------- |
+| ✅ Job 中可直接使用 | 支持多线程读取，不需要复制/调度         |
+| ✅ 内存连续         | 非常适合大量访问（如 EnemyConfigArray） |
+| ✅ 无 GC 压力       | 没有托管内存，生命周期完全可控          |
+| ✅ 支持嵌套结构     | 数组、子对象、链表都可以做进去          |
+| ✅ 可跨 Entity 使用 | 多个 Entity 可以共享一份配置数据        |
+
+------
+
+## ❗ 但注意：BlobAsset 的最佳场景是**“只读+共享+结构复杂”**
+
+并不是所有数据都一定需要转为 BlobAsset，比如：
+
+- 会频繁改变的状态（比如血量、位置） → ❌ 不适合 Blob
+- 每个实体都唯一的数据 → ❌ 不适合共享
+- 仅在主线程用的数据 → ❌ 直接 class/ScriptableObject 更方便
+
+------
+
+## ✅ 结论（你说的 + 我的补充）：
+
+> 是的，在 DOTS 中，**凡是要在 Job 中跨帧共享访问的、只读的外部数据**，**都推荐转换为 BlobAsset**，这不仅保证了 Job 安全，还提升了缓存效率，是 DOTS 性能设计的重要一环。
+
+## 5.3 Burst Compiler 是什么？
+
+> Burst 是 Unity 的 LLVM 编译器后端，它会将你的 Job 编译为原生 SIMD 汇编，极致优化 CPU 性能。
+
+### 特点：
+
+| 特性      | 说明                              |
+| --------- | --------------------------------- |
+| LLVM 优化 | 向量化、循环展开、去分支          |
+| 平台兼容  | 可编译成多平台汇编                |
+| 性能      | 通常可获得 10-100x 加速           |
+| 使用方法  | 在 Job 上加 `[BurstCompile]` 即可 |
+
+------
+
+### 注意事项：
+
+- 只能编译 struct Job（不能编译 class）
+- 不能捕获托管对象（如 `this`, `List<T>`）
+- 不能用 Debug.Log / UnityEngine API
+- 调试时可禁用 Burst 查看区别
+
+------
+
+## ✅ 5.4 Job + ECS 的配合方式
+
+```
+plaintext
 
 
+复制编辑
+System → Job → Entity 数据处理 → EntityCommandBuffer（变更记录）→ World更新
+```
 
-# 5. JobSystem
+数据传递方式：
 
+- 用 `Entities.ForEach()` 或 `IJobEntity`
+- Job 输入参数为 `in`, `ref`, `out` 的组件字段
+- Job 中不允许结构变更（需用 ECB）
 
+------
 
-# 6. Burst Compiler
+## ✅ 5.5 多线程注意事项与安全性
+
+| 问题                       | 解法                                                  |
+| -------------------------- | ----------------------------------------------------- |
+| 结构性变更不允许？         | ✅ 用 ECB 延迟执行                                     |
+| NativeArray 是否线程安全？ | ✅ 读写时需标明只读 or 并行访问                        |
+| Job 依赖怎么解决？         | ✅ 用 `.Schedule(dep)` 或 `.WithDisposeOnCompletion()` |
+| 是否可以嵌套 Job？         | ❌ 不支持，Job 不能调度 Job                            |
+| 是否能和 Burst 一起调试？  | ❌ 建议 Burst 开关切换（不可断点）                     |
+
+## Burst 优化范围总览：
+
+**Burst 只能优化被 Burst 编译器“接管”的方法**。
+ ✅ **大多数 Job（如 IJob、IJobEntity）是默认受支持的**，而普通 ECS 查询代码（非 Job）**默认不受 Burst 优化**。
+
+| 代码类型                                               | Burst 支持        | 说明                                      |
+| ------------------------------------------------------ | ----------------- | ----------------------------------------- |
+| ✅ `IJob`, `IJobEntity`, `IJobChunk`, `IJobParallelFor` | ✔️ 全面支持        | Burst 编译为原生代码                      |
+| ✅ `Entities.ForEach().WithBurst()`                     | ✔️ 支持            | 自动生成 Job 并 Burst 编译                |
+| ✅ 自定义 `[BurstCompile]` 的静态方法                   | ✔️ 支持            | 但方法中不能捕获托管对象                  |
+| ⚠️ 普通 C# 方法（非 Job 中）                            | ❌ 不会优化        | 仍走 Mono/IL2CPP 解释执行路径             |
+| ⚠️ SystemBase.OnUpdate 内部逻辑                         | ❌ 不会 Burst 编译 | 除非你显式调用一个被 Burst 支持的方法     |
+| ⚠️ 非 Job 的 EntityQuery 查询                           | ❌ 不支持 Burst    | 属于主线程 ECS API 调用，不是数据并行计算 |
+
+### 🧱 第六章：DOTS Physics 与 Unity.Physics 使用
+
+- 6.1 RigidBody、Collider、Trigger 结构
+- 6.2 物理世界（PhysicsWorld）与调度系统
+- 6.3 碰撞事件监听与自定义处理（ICollisionEventsJob）
+- 6.4 软体、约束、多形状支持
+
+### 🖼 第七章：Hybrid Renderer（DOTS 渲染系统）
+
+- 7.1 RenderMesh + RenderMeshArray
+- 7.2 MaterialProperty、实例渲染与剔除优化
+- 7.3 与 SubScene 资源打通
+- 7.4 自定义 Shader + 绑定 Entity 数据
+
+### 📁 第八章：BlobAsset、资源与数据管理
+
+- 8.1 BlobAsset 架构（只读高性能数据结构）
+- 8.2 实体引用资源、材质、文本
+- 8.3 Addressables + SubScene + .entities 的联合打包
+- 8.4 热更新方案与数据稳定性
