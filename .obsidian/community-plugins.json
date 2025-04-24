@@ -4,5 +4,6 @@
   "templater-obsidian",
   "obsidian-emoji-toolbar",
   "obsidian-tagfolder",
-  "metadata-menu"
+  "metadata-menu",
+  "dataview"
 ]

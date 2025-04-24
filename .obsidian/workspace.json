@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/程序/算法/图论.md",
+                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "图论"
+              "title": "CSharp的序列化控制"
             }
           }
         ]
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "notes/程序/算法/图论.md",
+                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "图论 的出链列表"
+              "title": "CSharp的序列化控制 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "notes/程序/算法/图论.md",
+                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "图论 的大纲"
+              "title": "CSharp的序列化控制 的大纲"
             }
           },
           {
@@ -162,7 +162,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -182,30 +182,46 @@
   },
   "active": "496db29d5defdf73",
   "lastOpenFiles": [
-    "notes/策划/新建文本文档.txt",
+    "notes/程序/语言/C++/新建文本文档.txt",
+    "notes/程序/语言/Python",
+    "notes/程序/语言/Lua/Lua速通教程.md",
+    "notes/程序/语言/CSharp/CSharp的序列化控制.md",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/IMG-20250424182451204.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-8.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-7.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程",
+    "attachments/notes/程序/语言/Lua",
+    "attachments/notes/程序/语言",
+    "attachments/notes/程序",
+    "attachments/notes",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/TableTest.lua",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/StringTest.lua",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/processed_output.txt",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/OOTest.lua",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-4.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-3.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-2.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-1.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-6.png",
+    "attachments/notes/程序/语言/Lua/Lua速通教程/image-5.png",
+    "README.md",
     "templates/NoteTemplates.md",
+    "notes/策划/游戏数值设计与数学模型.md",
+    "notes/HomePage-首页.md",
+    "notes/导航/实用工具导航.md",
+    "notes/导航/程序导航.md",
+    "notes/导航/美术导航.md",
+    "notes/导航/策划导航.md",
+    "notes/导航/技美导航.md",
     "notes/程序/算法/图论.md",
     "notes/策划/Test.md",
-    "README.md",
-    "templates",
-    "新建文件夹",
-    "attachments",
-    "notes/缓存区",
     "2025-04-24.md",
     "notes/程序/引擎相关/框架/ECS-DOTS/DOTS入门手册.md",
-    "diagrams",
-    "notes/策划",
-    "notes/新建文件夹",
-    "notes/导航",
     "Readme.md",
-    "images",
     "notes/技术美术/如何实现描边效果.md",
     "notes/技术美术/如何大量实体同屏渲染不卡.md",
     "notes/技术美术/四元数与欧拉角.md",
-    "notes/技术美术",
     "notes/程序/引擎相关/框架/ECS-DOTS/images/DOTS-System/image-20250330043902879.png",
-    "notes/程序/引擎相关/框架/ECS-DOTS/image-20250328021212018.png",
-    "notes/程序/引擎相关/框架/ECS-DOTS/image-20250328003213318.png",
     "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-System.md",
     "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-Component.md",
     "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-Chunk与Archetype.md",
