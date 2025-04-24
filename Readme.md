@@ -25,6 +25,21 @@
 4. 使用简洁清晰的命名，便于后续查阅和维护；
 5. 欢迎以 **Pull Request** 的形式提交，共同完善知识库！
 
+**项目目录结构：**
+```
+📁 GameScholarNotes (Git 仓库根目录)
+├── README.md
+├── notes/                 # Markdown 文件主目录
+│   ├── design/
+│   ├── dev/
+│   └── ...
+├── images/                # 所有图像统一存放（可以通过图片上传插件管理）
+├── diagrams/              # draw.io 文件
+├── .obsidian/             # Obsidian 配置文件夹（每人可自定 UI、插件）
+└── tags/ 或 metadata/     # 标签缓存或自定义结构（可选）
+```
+
+黑曜石下载链接：https://obsidian.md/download
 ## 📜 许可协议
 
 本项目采用 MIT License，欢迎自由使用与分享，但请尊重原作者署名。
