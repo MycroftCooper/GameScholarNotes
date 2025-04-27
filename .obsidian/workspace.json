@@ -11,14 +11,12 @@
             "id": "496db29d5defdf73",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
-                "mode": "source",
-                "source": false
+                "file": "notes/缓存区/attachments/排序算法/c6cff856.png"
               },
-              "icon": "lucide-file",
-              "title": "CSharp的序列化控制"
+              "icon": "lucide-image",
+              "title": "c6cff856"
             }
           }
         ]
@@ -142,13 +140,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
+                "file": "notes/缓存区/attachments/排序算法/c6cff856.png",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "CSharp的序列化控制 的大纲"
+              "title": "c6cff856 的大纲"
             }
           },
           {
@@ -162,7 +160,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -172,8 +170,6 @@
     "hiddenItems": {
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
-      "canvas:新建白板": false,
-      "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "obsidian-git:Open Git source control": false,
@@ -182,50 +178,51 @@
   },
   "active": "496db29d5defdf73",
   "lastOpenFiles": [
-    "notes/程序/语言/C++/新建文本文档.txt",
-    "notes/程序/语言/Python",
-    "notes/程序/语言/Lua/Lua速通教程.md",
-    "notes/程序/语言/CSharp/CSharp的序列化控制.md",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/IMG-20250424182451204.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-8.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-7.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程",
-    "attachments/notes/程序/语言/Lua",
-    "attachments/notes/程序/语言",
-    "attachments/notes/程序",
-    "attachments/notes",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/TableTest.lua",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/StringTest.lua",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/processed_output.txt",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/LearnLuaScripts/OOTest.lua",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-4.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-3.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-2.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-1.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-6.png",
-    "attachments/notes/程序/语言/Lua/Lua速通教程/image-5.png",
-    "README.md",
-    "templates/NoteTemplates.md",
-    "notes/策划/游戏数值设计与数学模型.md",
-    "notes/HomePage-首页.md",
-    "notes/导航/实用工具导航.md",
-    "notes/导航/程序导航.md",
-    "notes/导航/美术导航.md",
-    "notes/导航/策划导航.md",
-    "notes/导航/技美导航.md",
-    "notes/程序/算法/图论.md",
-    "notes/策划/Test.md",
-    "2025-04-24.md",
-    "notes/程序/引擎相关/框架/ECS-DOTS/DOTS入门手册.md",
-    "Readme.md",
-    "notes/技术美术/如何实现描边效果.md",
-    "notes/技术美术/如何大量实体同屏渲染不卡.md",
-    "notes/技术美术/四元数与欧拉角.md",
-    "notes/程序/引擎相关/框架/ECS-DOTS/images/DOTS-System/image-20250330043902879.png",
-    "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-System.md",
-    "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-Component.md",
-    "notes/程序/引擎相关/框架/ECS-DOTS/DOTS-Chunk与Archetype.md",
-    "notes/程序/引擎相关/Unity多线程开发.md",
-    "欢迎.md"
+    "notes/缓存区/attachments/排序算法/8689f95b.gif",
+    "notes/缓存区/attachments/排序算法/77c950ef.png",
+    "notes/缓存区/attachments/排序算法/23cd76ab.gif",
+    "notes/程序/扩展知识/Hexo/hexo博客使用手册.md",
+    "notes/程序/扩展知识/Hexo/hexo博客中添加音乐播放器.md",
+    "notes/程序/扩展知识/MYSQL语句大全.md",
+    "notes/程序/设计模式/设计模式-状态模式.md",
+    "notes/程序/设计模式/设计模式-单例模式.md",
+    "notes/程序/设计模式/设计模式-策略模式.md",
+    "notes/程序/语言/C++/C语言二周目速通手册.md",
+    "notes/缓存区/向量基础知识.md",
+    "notes/缓存区/线程基本知识.md",
+    "notes/缓存区/数据结构-堆.md",
+    "notes/缓存区/数学基础P1-P6.md",
+    "notes/缓存区/热更概述.md",
+    "notes/缓存区/排序算法.md",
+    "notes/缓存区/剑指offer.md",
+    "attachments/notes/程序/扩展知识/Hexo/hexo博客使用手册",
+    "attachments/notes/程序/扩展知识/Hexo",
+    "attachments/notes/程序/扩展知识",
+    "notes/程序/扩展知识/Hexo",
+    "attachments/notes/程序/设计模式/设计模式-状态模式",
+    "notes/程序/设计模式/设计模式-观察者模式.md",
+    "attachments/notes/程序/设计模式/设计模式-观察者模式",
+    "attachments/notes/程序/设计模式/设计模式-单例模式",
+    "attachments/notes/程序/设计模式/设计模式-策略模式",
+    "attachments/notes/程序/设计模式",
+    "notes/缓存区/CSharp-多线程.md",
+    "notes/缓存区/CSharp-反射.md",
+    "notes/缓存区/CSharp-序列化.md",
+    "notes/缓存区/CSharp-序列化控制.md",
+    "notes/缓存区/CSharp-is与as.md",
+    "notes/缓存区/DataResult与DataTable类.md",
+    "notes/缓存区/DinoParkour开发文档.md",
+    "notes/缓存区/Unity协程.md",
+    "notes/缓存区/Unity执行代码底层原理与工作流.md",
+    "notes/缓存区/Unity中的标签 层级 静态物体.md",
+    "attachments/notes/公共空间/MarkDown快速入门",
+    "notes/缓存区/attachments/贪心算法/c93ddfab.png",
+    "notes/缓存区/attachments/贪心算法/73208147.png",
+    "notes/缓存区/attachments/贪心算法/76a75436.png",
+    "attachments/notes/程序/设计模式/设计模式-观察者模式/IMG-20250428024859113.png",
+    "attachments/notes/程序/设计模式/设计模式-观察者模式/IMG-20250428024859045.jpg",
+    "attachments/notes/程序/设计模式/设计模式-观察者模式/IMG-20250428024858920.png",
+    "attachments/notes/程序/设计模式/设计模式-策略模式/IMG-20250428024727980.png",
+    "attachments/notes/程序/设计模式/设计模式-策略模式/IMG-20250428024727806.png"
   ]
 }
