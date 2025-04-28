@@ -1,11 +1,13 @@
 ---
-title: Unity-瓦片地图
+title: Unity-UGUI-画布
 author: MycroftCooper
 created: 2025-04-28 02:36
 lastModified: 2025-04-28 02:36
-tags: 
-category: 缓存区
-note status: 草稿
+tags:
+  - 程序
+  - Unity
+category: 程序/引擎/Unity/UI
+note status: 终稿
 ---
 
 
@@ -67,7 +69,7 @@ note status: 草稿
 
 **Screen Space-Overlay**（屏幕控件-覆盖模式）的画布会填满整个屏幕空间，并将画布下面的所有的UI元素置于屏幕的最上层，或者说画布的画面永远“覆盖”其他普通的3D画面，如果屏幕尺寸被改变，画布将自动改变尺寸来匹配屏幕，如下图效果：
 
-![image-20210615154529500](./attachments/Unity-UGUI-画布/b0ce2edd.png)
+![image-20210615154529500](attachments/notes/程序/引擎/Unity/UI/Unity-UGUI-画布/IMG-20250428111338609.png)
 
 > 在此模式下，虽然在Canvas前放置了3D人物，但是在Game窗口中并不能观察到3D人物
 
@@ -92,7 +94,7 @@ note status: 草稿
 
 这种模式可以用来实现在UI上显示3D模型的需求，比如:
 很多MMO游戏中的查看人物装备的界面，可能屏幕的左侧有一个运动的3D人物，左侧是一些UI元素。
-通过设置**Screen Space-Camera**模式就可以实现上述的需求，效果如下图所示：![image-20210615155308173](./attachments/Unity-UGUI-画布/3bee19ae.png)
+通过设置**Screen Space-Camera**模式就可以实现上述的需求，效果如下图所示：![image-20210615155308173](attachments/notes/程序/引擎/Unity/UI/Unity-UGUI-画布/IMG-20250428111338652.png)
 
 它比**Screen Space-Overlay**模式的画布多了下面几个参数：
 
@@ -125,7 +127,7 @@ World Space即世界控件模式。
 
 这种模式可以用来实现跟随人物移动的血条或者名称，如下图所示：
 
-![image-20210615155346268](./attachments/Unity-UGUI-画布/78976f03.png)
+![image-20210615155346268](attachments/notes/程序/引擎/Unity/UI/Unity-UGUI-画布/IMG-20250428111338737.png)
 
 ## 1.4 Canvas Scale画布缩放组件
 

@@ -1,11 +1,13 @@
 ---
-title: Unity-瓦片地图
+title: Unity-UGUI-事件接口
 author: MycroftCooper
 created: 2025-04-28 02:36
 lastModified: 2025-04-28 02:36
-tags: 
-category: 缓存区
-note status: 草稿
+tags:
+  - 程序
+  - Unity
+category: 程序/引擎/Unity/UI
+note status: 终稿
 ---
 
 
