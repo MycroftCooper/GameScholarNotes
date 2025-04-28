@@ -242,7 +242,7 @@ daliangdaima,xuyaoduohangshiyong
 
 以上两种方式其效果图都是一样的，如下：
 
-![markdown快速入门示例图](attachments/notes/公共空间/MarkDown快速入门/IMG-20250428024422310.png)
+![markdown快速入门示例图](attachments/notes/程序/扩展知识/MarkDown快速入门/IMG-20250428155113150.png)
 
 # 8. 分割线
 

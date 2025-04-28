@@ -1,0 +1,56 @@
+/* 标签云布局 */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 标签基础样式 */
+.tag-cloud-item {
+  text-decoration: none;
+  font-weight: bold;
+  color: hsl(210, 70%, 60%);
+  transition: all 0.3s ease;
+}
+
+/* 标签hover效果 */
+.tag-cloud-item:hover {
+  transform: scale(1.2);
+  color: hsl(270, 70%, 60%);
+  text-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+}
+
+/* 标签点击选中高亮 */
+.tag-cloud-selected {
+  color: hsl(30, 90%, 50%) !important;
+  border-bottom: 2px solid hsl(30, 90%, 50%);
+}
+
+/* 文章列表区域 */
+#tag-article-list {
+  margin-top: 20px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 每条文章条目 */
+.tag-article-item {
+  padding-left: 20px;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* 文章hover效果 */
+.tag-article-item:hover {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+
+/* 飞入淡入动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

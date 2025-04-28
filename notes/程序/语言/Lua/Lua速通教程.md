@@ -4,11 +4,10 @@ author: MycroftCooper
 created: 2025-04-24 18:21
 lastModified: 2025-04-24 18:21
 tags:
-  - 程序
   - Lua
   - 语言
 category: 程序/语言/Lua
-note status: 草稿
+note status: 终稿
 ---
 # Lua速通教程
 

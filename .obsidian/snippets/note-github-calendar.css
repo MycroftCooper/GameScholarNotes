@@ -1,0 +1,40 @@
+/* 🎨 美化日历格子 */
+.calendar-heatmap {
+    padding: 10px 0;
+    align-items: center;
+}
+
+.calendar-cell {
+    width: 14px;
+    height: 14px;
+    background-color: #ebedf0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.calendar-cell:hover {
+    transform: scale(1.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 1px solid var(--text-accent);
+}
+
+/* 点击选中后高亮 */
+.calendar-cell.selected {
+    outline: 2px solid var(--interactive-accent);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px var(--interactive-accent);
+}
+
+/* 美化月份标签 */
+.calendar-heatmap > div {
+    font-weight: bold;
+}
+
+/* 美化笔记列表 */
+.calendar-day-notes a {
+    color: var(--text-accent);
+    text-decoration: underline;
+    font-weight: 500;
+}

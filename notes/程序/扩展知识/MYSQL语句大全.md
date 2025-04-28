@@ -6,7 +6,7 @@ lastModified: 2025-04-28 02:36
 tags:
   - 数据库
   - MYSQL
-category: 缓存区
+category: 程序/扩展知识
 note status: 终稿
 ---
 

@@ -1,4 +1,9 @@
 {
   "theme": "obsidian",
-  "cssTheme": "Typora-Vue"
+  "cssTheme": "Typora-Vue",
+  "enabledCssSnippets": [
+    "tag-cloud",
+    "category-tree",
+    "note-github-calendar"
+  ]
 }

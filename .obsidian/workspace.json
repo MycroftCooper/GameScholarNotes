@@ -4,21 +4,55 @@
     "type": "split",
     "children": [
       {
-        "id": "752dc5117f4d8555",
+        "id": "307fbc153550c81e",
         "type": "tabs",
         "children": [
           {
-            "id": "496db29d5defdf73",
+            "id": "774bafed0425ee3a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/程序/引擎/Unity/Unity-代码执行底层原理与工作流.md",
+                "file": "notes/导航/HomePage-首页.md",
                 "mode": "source",
-                "source": false
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
               },
               "icon": "lucide-file",
-              "title": "Unity-代码执行底层原理与工作流"
+              "title": "HomePage-首页"
+            }
+          },
+          {
+            "id": "800f12321bc24b78",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "notes/导航/技美导航.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "技美导航"
             }
           }
         ]
@@ -113,12 +147,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "notes/程序/语言/CSharp/CSharp的序列化控制.md",
-                "linksCollapsed": false,
+                "file": "notes/导航/HomePage-首页.md",
+                "linksCollapsed": true,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "CSharp的序列化控制 的出链列表"
+              "title": "HomePage-首页 的出链列表"
             }
           },
           {
@@ -142,13 +176,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "notes/程序/引擎/Unity/Unity-代码执行底层原理与工作流.md",
+                "file": "notes/导航/HomePage-首页.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Unity-代码执行底层原理与工作流 的大纲"
+              "title": "HomePage-首页 的大纲"
             }
           },
           {
@@ -166,7 +200,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 302.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -175,47 +209,49 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "obsidian-git:Open Git source control": false,
-      "templater-obsidian:Templater": false
+      "templater-obsidian:Templater": false,
+      "random-note:开始漫游笔记": false
     }
   },
-  "active": "496db29d5defdf73",
+  "active": "774bafed0425ee3a",
   "lastOpenFiles": [
-    "notes/程序/引擎/Unity/入门基础/Unity-瓦片地图.md",
-    "attachments/notes/程序/引擎/Unity/入门基础/Unity-瓦片地图",
-    "notes/程序/引擎/Unity/Unity-代码执行底层原理与工作流.md",
-    "notes/程序/引擎/Unity/功能实现/Unity-2D移动幻影的实现.md",
+    "notes/导航/技美导航.md",
+    "notes/导航/HomePage-首页.md",
+    "README.md",
+    "notes/程序/引擎/Unity/框架/UGF学习书签.md",
+    "notes/程序/算法/贪心算法.md",
+    "notes/程序/引擎/Unity/入门基础/Unity-标签，层级，静态物体.md",
+    "notes/程序/网络/游戏网络同步学习.md",
+    "notes/技术美术/向量基础知识.md",
     "notes/程序/引擎/Unity/功能实现/Unity-2D射击小游戏瞄准线的实现.md",
+    "notes/程序/引擎/Unity/功能实现/Unity-2D移动幻影的实现.md",
+    "notes/程序/网络/Socket原理.md",
+    "notes/技术美术/UnityShader/UnityShader的形式.md",
+    "notes/导航/策划导航.md",
+    "notes/程序/语言/Lua/Lua速通教程.md",
+    "notes/程序/引擎/Unity/动画/Spine速通手册.md",
+    "notes/导航/美术导航.md",
+    "notes/策划/数值/游戏数值设计与数学模型.md",
+    "notes/技术美术/Games101学习笔记/数学基础 P1-P6.md",
+    "notes/程序/设计模式/设计模式-策略模式.md",
+    "notes/程序/设计模式/设计模式-单例模式.md",
+    "notes/程序/设计模式/设计模式-观察者模式.md",
+    "notes/程序/设计模式/设计模式-状态模式.md",
+    "notes/程序/数据结构/堆.md",
+    "notes/程序/扩展知识/MYSQL语句大全.md",
+    "notes/程序/语言/线程基本知识.md",
+    "notes/程序/引擎/Unity/入门基础/Unity-MonoBehaviour基类.md",
+    "attachments/notes/程序/扩展知识/MarkDown快速入门",
+    "attachments/notes/程序/引擎/Unity/入门基础/Unity-瓦片地图",
     "attachments/notes/程序/引擎/Unity/功能实现/Unity-2D移动幻影的实现",
     "attachments/notes/程序/引擎/Unity/功能实现/Unity-2D射击小游戏瞄准线的实现",
     "attachments/notes/程序/引擎/Unity/功能实现",
-    "README.md",
-    "notes/缓存区/Unity3D 2D射击小游戏瞄准线的实现.md",
     "attachments/notes/缓存区/Unity-2D射击小游戏瞄准线的实现",
     "attachments/notes/缓存区/Unity-2D射击小游戏瞄准线的实现/IMG-20250428112113094.gif",
-    "notes/程序/引擎/Unity/功能实现/Unity-2D设计小游戏移动幻影的实现.md",
     "attachments/notes/缓存区/Unity-2D设计小游戏移动幻影的实现",
-    "notes/程序/语言/线程基本知识.md",
     "notes/程序/引擎/Unity/功能实现",
-    "notes/程序/语言/CSharp/CSharp-多线程.md",
     "attachments/notes/程序/语言/线程基本知识",
-    "notes/程序/引擎/热更概述.md",
     "notes/程序/引擎/UE/新建文本文档.txt",
-    "notes/程序/引擎/UE",
-    "notes/程序/引擎/Unity/UI/Unity-UGUI-事件接口.md",
-    "notes/程序/引擎/Unity/UI/Unity-UGUI-画布.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-协程.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-资源管理.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-标签，层级，静态物体.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-事件.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-常用的事件函数.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-输入操作.md",
-    "notes/程序/引擎/Unity/动画/Unity-动画-回调函数接口.md",
-    "notes/程序/引擎/Unity/动画/Spine速通手册.md",
-    "notes/程序/引擎/Unity/动画/DoTween速成.md",
-    "notes/程序/引擎/Unity/编辑器/Unity-编辑器扩展-辅助线.md",
-    "notes/程序/引擎/Unity/编辑器/Odin快速入门.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-Transform类.md",
-    "notes/程序/引擎/Unity/入门基础/Unity-射线检测.md",
     "attachments/notes/程序/引擎/Unity/框架/ECS-DOTS/DOTS-System/IMG-20250425160313743.png",
     "attachments/notes/程序/引擎/Unity/框架/ECS-DOTS/DOTS-System/IMG-20250425160313759.png",
     "attachments/notes/程序/引擎/Unity/框架/ECS-DOTS/DOTS-System/image-20250328003213318.png",

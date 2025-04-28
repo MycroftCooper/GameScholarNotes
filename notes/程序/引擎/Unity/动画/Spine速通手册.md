@@ -4,10 +4,8 @@ author: MycroftCooper
 created: 2025-04-25 16:08
 lastModified: 2025-04-25 16:08
 tags:
-  - 程序
   - Spine
   - 工具
-  - 美术
 category: 程序/引擎/Unity/动画
 note status: 终稿
 ---
