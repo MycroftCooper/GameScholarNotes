@@ -40,6 +40,7 @@
 ```
 
 黑曜石下载链接：https://obsidian.md/download
+标题绝对不能有空格！
 ## 📜 许可协议
 
 本项目采用 MIT License，欢迎自由使用与分享，但请尊重原作者署名。
