@@ -1,11 +1,13 @@
 ---
-title: <% tp.file.title %>
+title: 剑指offer
 author: MycroftCooper
-created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
-lastModified: <% tp.date.now("YYYY-MM-DD HH:mm") %>
-tags: 
-category: <% tp.file.folder(true).startsWith('notes/') ? tp.file.folder(true).slice(6) : tp.file.folder(true) %>
-note status: 草稿
+created: 2025-04-28 02:36
+lastModified: 2025-04-28 02:36
+tags:
+  - 程序
+  - 算法
+category: 程序/算法
+note status: 终稿
 ---
 
 
@@ -334,7 +336,7 @@ int main()
 
 **示例1：**
 
-![image-20210716143123077](./attachments/剑指offer/25e0d94a.png)
+![image-20210716143123077](attachments/notes/程序/算法/剑指offer/IMG-20250428102905547.png)
 
 **Input:** 
 preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
@@ -866,7 +868,7 @@ int main()
 
 例如，在下面的 3×4 的矩阵中包含单词 "ABCCED"（单词中的字母已标出）。
 
-![image-20210717130732349](./attachments/剑指offer/06ec9fb1.png)
+![image-20210717130732349](attachments/notes/程序/算法/剑指offer/IMG-20250428102905861.png)
 链接：https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof
 
 **示例 1：**
@@ -951,7 +953,7 @@ int main()
 **思路:**
 
 本问题是典型的矩阵搜索问题，可使用 深度优先搜索（DFS）+ 剪枝 解决。
-![image-20210718125453317](./attachments/剑指offer/3e70af9e.png)
+![image-20210718125453317](attachments/notes/程序/算法/剑指offer/IMG-20250428102906171.png)
 
 **深度优先搜索：** 
 可以理解为暴力法遍历矩阵中所有字符串可能性。
@@ -1500,7 +1502,7 @@ int main()
   基于分治算法的思想，先固定高位，向低位递归，当个位已被固定时，添加数字的字符串。
   例如当 n = 2n=2 时（数字范围 1 - 991−99 ），固定十位为 00 - 99 ，按顺序依次开启递归，固定个位 00 - 99 ，终止递归并添加数字字符串。
 
-![image-20210726150257820](./attachments/剑指offer/f2e85e83.png)
+![image-20210726150257820](attachments/notes/程序/算法/剑指offer/IMG-20250428102906496.png)
 
 即：使用深度优先搜索算法(dfs)。
 
@@ -2386,7 +2388,7 @@ if __name__ == "__main__":
 
 使用辅助栈
 
-![image-20210921114403708](./attachments/剑指offer/b1058c1a.png)
+![image-20210921114403708](attachments/notes/程序/算法/剑指offer/IMG-20250428102906847.png)
 
 # 31. 栈的压入、弹出序列
 
@@ -2779,7 +2781,7 @@ class Solution:
 
 **示例 1：**
 
-![img](./attachments/剑指offer/f530a6de.png)
+![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102907174.png)
 
 ```
 输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
@@ -2788,7 +2790,7 @@ class Solution:
 
 **示例 2：**
 
-![img](./attachments/剑指offer/f0830019.png)
+![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102907540.png)
 
 ```
 输入：head = [[1,1],[2,1]]
@@ -2797,7 +2799,7 @@ class Solution:
 
 **示例 3：**
 
-**![img](./attachments/剑指offer/ede7db69.png)**
+**![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102907870.png)**
 
 ```
 输入：head = [[3,null],[3,0],[3,null]]
@@ -2859,7 +2861,7 @@ class Solution:
 
  
 
-![img](./attachments/剑指offer/fb1939fc.png)
+![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102908232.png)
 
  
 
@@ -2869,7 +2871,7 @@ class Solution:
 
  
 
-![img](./attachments/剑指offer/b31f0d18.png)
+![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102908517.png)
 
  
 
@@ -3016,7 +3018,7 @@ if __name__ == "__main__":
 
 **示例：**
 
-![img](./attachments/剑指offer/fbb078b1.jpg)
+![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102908846.jpg)
 
 ```
 输入：root = [1,2,3,null,null,4,5]
@@ -3404,7 +3406,7 @@ https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/
 动态规划解析：
 
 **转移方程：**
-![image-20210922201844462](./attachments/剑指offer/f44dc4ef.png)
+![image-20210922201844462](attachments/notes/程序/算法/剑指offer/IMG-20250428102909182.png)
 
 **初始状态：** 
 dp[0] = 1
@@ -3573,7 +3575,7 @@ https://leetcode-cn.com/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/
 
 **解:**
 这是个纯粹的找规律数学问题
-![image-20210925212710412](./attachments/剑指offer/76973ea1.png)
+![image-20210925212710412](attachments/notes/程序/算法/剑指offer/IMG-20250428102909486.png)
 
 根据以上分析，可将求解分为三步：
 
@@ -3890,7 +3892,7 @@ if __name__ == "__main__":
 
 如下面的两个链表**：**
 
-[![img](./attachments/剑指offer/e05d837c.png)](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
+[![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102909796.png)](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
 
 在节点 c1 开始相交。
 
@@ -3898,7 +3900,7 @@ if __name__ == "__main__":
 
 **示例 1：**
 
-[![img](./attachments/剑指offer/3e2900ad.png)](https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png)
+[![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102910178.png)](https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png)
 
 ```
 输入：
@@ -3912,7 +3914,7 @@ Reference of the node with value = 8
 
 **示例 2：**
 
-[![img](./attachments/剑指offer/daa6ae42.png)](https://assets.leetcode.com/uploads/2018/12/13/160_example_3.png)
+[![img](attachments/notes/程序/算法/剑指offer/IMG-20250428102910492.png)](https://assets.leetcode.com/uploads/2018/12/13/160_example_3.png)
 
 ```
 输入：
@@ -4866,7 +4868,7 @@ https://leetcode-cn.com/problems/gou-jian-cheng-ji-shu-zu-lcof/
 
 **解:**
 
-![image-20210925225643388](./attachments/剑指offer/a96bf7b7.png)
+![image-20210925225643388](attachments/notes/程序/算法/剑指offer/IMG-20250428102910844.png)
 
 ```python
 class Solution:
