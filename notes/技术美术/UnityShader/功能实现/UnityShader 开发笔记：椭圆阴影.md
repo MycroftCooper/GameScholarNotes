@@ -21,8 +21,8 @@ note status: 终稿
 - 需要快速调整阴影效果（如模糊度、像素化程度）的开发场景。
     
 
----
-
+![[attachments/notes/技术美术/UnityShader/功能实现/UnityShader 开发笔记：椭圆阴影/IMG-20250430144026111.png]]
+![[attachments/notes/技术美术/UnityShader/功能实现/UnityShader 开发笔记：椭圆阴影/IMG-20250430144137368.png]]
 ## 二、核心功能拆解
 
 ### 1. 椭圆阴影形状
@@ -36,13 +36,10 @@ note status: 终稿
 
 在顶点着色器中对UV坐标进行处理，使阴影可以在横纵轴方向灵活调整：
 
-hlsl
+```hlsl
+float sx = UNITY_ACCESS_INSTANCED_PROP(Props, _ScaleX); float sy = UNITY_ACCESS_INSTANCED_PROP(Props, _ScaleY);  float2 centered = v.uv - 0.5; centered.x *= sx; centered.y *= sy; o.uv = centered + 0.5;
+```
 
-复制编辑
-
-`float sx = UNITY_ACCESS_INSTANCED_PROP(Props, _ScaleX); float sy = UNITY_ACCESS_INSTANCED_PROP(Props, _ScaleY);  float2 centered = v.uv - 0.5; centered.x *= sx; centered.y *= sy; o.uv = centered + 0.5;`
-
----
 
 ### 2. 内向模糊效果（Inward Blur）
 
@@ -57,15 +54,9 @@ hlsl
 
 关键代码：
 
-h
-
-复制编辑
-
 `float b = max(blur, 1e-4); float grad = saturate((1.0 - dist) / b);`
 
 当`_Blur` 值增大时，阴影边缘渐变区域变宽，视觉效果更为柔和。
-
----
 
 ### 3. 描边与像素化效果（Outline & Pixelate）
 
@@ -91,9 +82,13 @@ h
 
 将描边与像素化通过计算后的UV坐标共同实现，最终进行颜色叠加：
 
-`// 像素化计算 float2 pixUV = floor(uv * pixelSize) / pixelSize + (0.5 / pixelSize); float2 finalUV = lerp(uv, pixUV, saturate(pixelate));  // 描边与阴影掩码计算 float inner = 1.0 - outlineWidth; float shadowMask = step(dist, inner); float outlineMask = step(inner, dist);  // 颜色叠加 fixed4 shadowCol  = color * (grad * shadowMask); fixed4 outlineCol = outlineColor * (grad * outlineMask); return shadowCol + outlineCol;`
-
----
+```hlsl
+// 像素化计算 float2 pixUV = floor(uv * pixelSize) / pixelSize + (0.5 / pixelSize);
+float2 finalUV = lerp(uv, pixUV, saturate(pixelate));  // 描边与阴影掩码计算 
+float inner = 1.0 - outlineWidth; float shadowMask = step(dist, inner); 
+float outlineMask = step(inner, dist);  // 颜色叠加 
+fixed4 shadowCol  = color * (grad * shadowMask); fixed4 outlineCol = outlineColor * (grad * outlineMask); return shadowCol + outlineCol;
+```
 
 ## 三、使用示例与参数配置建议
 
@@ -115,7 +110,6 @@ h
     
 - 描边效果应谨慎使用，以防止过于突兀，推荐采用低透明度颜色。
     
-
 ### 常见问题与解决方法（FAQ）：
 
 - **边缘过于生硬？**  
@@ -125,8 +119,6 @@ h
     尽可能关闭像素化或减少模糊程度；合理使用Instancing批处理。
     
 
----
-
 ## 四、Instancing 优化与性能扩展
 
 ### GPU Instancing 优化
@@ -135,14 +127,20 @@ h
 
 **实现方式：** 通过定义`UNITY_INSTANCING_BUFFER`实现每个实例单独设置属性：
 
-hlsl
-
-复制编辑
-
-`UNITY_INSTANCING_BUFFER_START(Props)     UNITY_DEFINE_INSTANCED_PROP(float4, _Color)     UNITY_DEFINE_INSTANCED_PROP(float,  _ScaleX)     UNITY_DEFINE_INSTANCED_PROP(float,  _ScaleY)     UNITY_DEFINE_INSTANCED_PROP(float,  _Blur)     UNITY_DEFINE_INSTANCED_PROP(float,  _Pixelate)     UNITY_DEFINE_INSTANCED_PROP(float,  _PixelSize)     UNITY_DEFINE_INSTANCED_PROP(float4, _OutlineColor)     UNITY_DEFINE_INSTANCED_PROP(float,  _OutlineWidth) UNITY_INSTANCING_BUFFER_END(Props)`
+```hlsl
+UNITY_INSTANCING_BUFFER_START(Props)     
+UNITY_DEFINE_INSTANCED_PROP(float4, _Color)     
+UNITY_DEFINE_INSTANCED_PROP(float,  _ScaleX)    
+UNITY_DEFINE_INSTANCED_PROP(float,  _ScaleY)    
+UNITY_DEFINE_INSTANCED_PROP(float,  _Blur)     
+UNITY_DEFINE_INSTANCED_PROP(float,  _Pixelate)    
+UNITY_DEFINE_INSTANCED_PROP(float,  _PixelSize)    
+UNITY_DEFINE_INSTANCED_PROP(float4, _OutlineColor)    
+UNITY_DEFINE_INSTANCED_PROP(float,  _OutlineWidth)
+UNITY_INSTANCING_BUFFER_END(Props)
+```
 
 实例化后的属性获取示例：
-
 `float sx = UNITY_ACCESS_INSTANCED_PROP(Props, _ScaleX); float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);`
 
 ### 性能表现与优化策略：
@@ -162,20 +160,3 @@ hlsl
     
 - 与动态光源联动，增强动态光影表现力。
     
-
----
-
-## 五、已知问题与后续改进计划
-
-### 已知问题：
-
-- 在极端参数下，描边可能与像素化冲突，需要精细调参。
-    
-- 部分移动端设备的性能可能因过多实例或过强像素化而下降明显。
-    
-
-### 后续计划：
-
-- 尝试通过LOD策略，根据距离或设备性能自动调整Shader复杂度。
-    
-- 优化像素化与描边的渲染组合，增强视觉一致性和性能。
